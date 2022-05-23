@@ -1,0 +1,49 @@
+name: slack-test
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    name: Scan the app
+    steps:
+      - name: ZAP Scan
+        run: |
+          exit 1
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: scan
+    if: ${{ failure() }}
+    steps:
+      - name: Send GitHub Action trigger data to Slack workflow
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          payload: |
+            {
+              "text": ":github: app-scan-test(${{ github }}): Vulnerability found",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":github: app-scan-test(${{ github }}): Vulnerability found"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "GitHub Actions URL: ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WORKFLOW_WEBHOOK_URL }}
+
