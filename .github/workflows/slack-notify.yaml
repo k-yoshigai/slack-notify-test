@@ -36,13 +36,13 @@ jobs:
         with:
           payload: |
             {
-              "text": ":github: app-scan-test(${{ github }}): Vulnerability found",
+              "text": ":github: app-scan-test(${{ github.repository }}): Vulnerability found",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":github: app-scan-test(${{ github }}): Vulnerability found"
+                    "text": ":github: app-scan-test(${{ github.repository }}): Vulnerability found"
                   }
                 },
                 {
@@ -50,7 +50,7 @@ jobs:
                   "elements": [
                     {
                       "type": "mrkdwn",
-                      "text": "GitHub Actions URL: ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
+                      "text": "GitHub Actions URL: ${{ server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     }
                   ]
                 }
