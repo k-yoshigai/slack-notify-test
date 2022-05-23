@@ -50,7 +50,7 @@ jobs:
                   "elements": [
                     {
                       "type": "mrkdwn",
-                      "text": "GitHub Actions URL: ${{ server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                      "text": "GitHub Actions URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     }
                   ]
                 }
